@@ -11,6 +11,9 @@
 * ワールドの新規インスタンス生成
 * ユーザーからの受信メッセージ表示
 
+## 開発環境
+Microsoft Visual Studio 2017
+C# 7.0
 
 ## License
 MIT
