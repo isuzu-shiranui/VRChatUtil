@@ -1,0 +1,27 @@
+﻿<controls:MetroWindow
+    x:Class="VRChatUtil.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:properties="clr-namespace:VRChatUtil.Properties"
+    Title="{x:Static properties:Resources.Window_Title}"
+    Width="1280"
+    Height="720"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    BorderThickness="1"
+    WindowStartupLocation="CenterScreen">
+    <controls:MetroWindow.Resources>
+        <Style BasedOn="{StaticResource ResourceKey=VSWindowStyleKey}" TargetType="controls:MetroWindow" />
+
+    </controls:MetroWindow.Resources>
+
+    <controls:MetroWindow.GlowBrush>
+        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}" />
+    </controls:MetroWindow.GlowBrush>
+
+    <Grid>
+        <ContentControl prism:RegionManager.RegionName="FrameRegion" />
+    </Grid>
+
+</controls:MetroWindow>

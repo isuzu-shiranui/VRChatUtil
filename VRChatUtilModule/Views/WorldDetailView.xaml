@@ -1,0 +1,197 @@
+﻿<UserControl
+    x:Class="VRChatUtilModule.Views.WorldDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:viewModels="clr-namespace:VRChatUtilModule.ViewModels"
+    xmlns:virtualizingWrapPanel="clr-namespace:CodePlex.VirtualizingWrapPanel;assembly=VirtualizingWrapPanel"
+    d:DataContext="{d:DesignInstance viewModels:WorldDetailViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style x:Key="ContentTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Border
+                Width="300"
+                Height="240"
+                CornerRadius="10">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding WorldInfo.ImageUrl}" />
+                </Border.Background>
+            </Border>
+
+            <StackPanel Grid.Column="1">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="World ID :" />
+                    <TextBlock Style="{StaticResource ContentTextBlockStyle}" Text="{Binding WorldInfo.Id}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,5">
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Authored By :" />
+                    <TextBlock Style="{StaticResource ContentTextBlockStyle}" Text="{Binding WorldInfo.AuthorName}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,5">
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Publish Status :" />
+                    <TextBlock Style="{StaticResource ContentTextBlockStyle}" Text="{Binding WorldInfo.ReleaseStatus}" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Max Players :" />
+                    <TextBlock Style="{StaticResource ContentTextBlockStyle}" Text="{Binding WorldInfo.Capacity}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,5">
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Description :" />
+                    <TextBlock
+                        Style="{StaticResource ContentTextBlockStyle}"
+                        Text="{Binding WorldInfo.Description}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <DockPanel Grid.Row="1" Margin="0,10,0,0">
+            <TextBlock
+                Margin="10,0,0,0"
+                DockPanel.Dock="Top"
+                Style="{StaticResource ContentTextBlockStyle}"
+                Text="Instances" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Margin="0,5"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="New Instance :" />
+                    <Button
+                        Width="80"
+                        Margin="5,0"
+                        Command="{Binding LaunchPublicCommand}"
+                        Content="Public" />
+                    <Button
+                        Width="80"
+                        Margin="5,0"
+                        Command="{Binding LaunchFriendPlusCommand}"
+                        Content="Friends+" />
+                    <Button
+                        Width="80"
+                        Margin="5,0"
+                        Command="{Binding LaunchFriendCommand}"
+                        Content="Friends" />
+                    <Button
+                        Width="80"
+                        Margin="5,0"
+                        Command="{Binding LaunchInvitePlusCommand}"
+                        Content="Invite+" />
+                    <Button
+                        Width="80"
+                        Margin="5,0"
+                        Command="{Binding LaunchInviteCommand}"
+                        Content="Invite Onry" />
+                </StackPanel>
+
+                <ListView
+                    x:Name="InstanceList"
+                    Grid.Row="1"
+                    ItemsSource="{Binding WorldInfo.Instances}"
+                    ScrollViewer.CanContentScroll="True"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.IsDeferredScrollingEnabled="True"
+                    ScrollViewer.PanningMode="VerticalOnly"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    VirtualizingPanel.IsVirtualizing="True">
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <virtualizingWrapPanel:VirtualizingWrapPanel CanVerticallyScroll="True" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="OverridesDefaultStyle" Value="True" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ContentControl}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="5"
+                                BorderBrush="LightGray"
+                                BorderThickness="1"
+                                CornerRadius="10">
+                                <StackPanel>
+                                    <Border
+                                        Width="100"
+                                        Height="80"
+                                        CornerRadius="10">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding ElementName=InstanceList, Path=DataContext.WorldInfo.ThumbnailImageUrl}" />
+                                        </Border.Background>
+                                    </Border>
+                                    <StackPanel Margin="5,0,0,0" Orientation="Horizontal">
+                                        <TextBlock Text="Players: " />
+                                        <TextBlock Text="{Binding Count}" />
+                                        <TextBlock Text="/" />
+                                        <TextBlock Text="{Binding ElementName=InstanceList, Path=DataContext.WorldInfo.Capacity}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,11 @@
+*.DotSettings
+VRChatUtil.sln.DotSettings.user
+.vs/
+packages/
+VRChatApiWrapper/obj/
+VRChatUtil/bin/
+VRChatUtil/obj/
+VRChatUtilModule/bin/
+VRChatUtilModule/obj/
+ResponseData/
+VRChatApiWrapper/bin/
